@@ -15,8 +15,9 @@
 
 # include "../ft_printf/ft_printf.h"
 # include "get_next_line.h"
-# include "../mlx_linux/mlx.h"
+/*# include "../mlx_linux/mlx.h"*/
 # include <fcntl.h>
+# include <math.h>
 
 # define FRONT 1
 # define RIGHT 2
@@ -28,6 +29,31 @@
 # define COINS  			'C'
 # define PLAYER				'P'
 # define MAP_EXIT 		 	'E'
+
+# define IMG_WIDTH 32
+# define IMG_HEIGHT 32
+
+# define KEY_W				119
+# define KEY_A				97
+# define KEY_S				115
+# define KEY_D				100
+
+# define KEY_UP  			65362
+# define KEY_LEFT  			65361
+# define KEY_RIGHT 			65363
+# define KEY_DOWN  			65364
+
+# define KEY_ESC  			65307
+
+# define WALL_XPM "textures/wall.xpm"
+# define FLOOR_XPM "textures/floor.xpm"
+# define COINS_XPM "textures/coins.xpm"
+# define PLAYER_FRONT_XPM "textures/front.xpm"
+# define PLAYER_LEFT_XPM "textures/left.xpm"
+# define PLAYER_RIGHT_XPM "textures/right.xpm"
+# define PLAYER_BACK_XPM "textures/back.xpm"
+# define OPEN_EXIT_XPM "textures/open_goal.xpm"
+# define EXIT_CLOSED_XPM "textures/goal_close.xpm"
 
 typedef enum e_bool
 {
@@ -43,7 +69,7 @@ typedef struct s_position
 
 typedef struct s_image
 {
-	void	*xmp_ptr;
+	void	*xpm_ptr;
 	int		x;
 	int		y;
 }	t_image;
@@ -78,11 +104,18 @@ typedef struct s_game
 	t_image		player_back;
 }	t_game;
 
-void	ft_error(char *messeg);
+void	ft_error(char *messeg, t_game *game);
 void	init_map(t_game *game, char *argv);
 void	check_cmdline_argument(int ac, char **av, t_game *game);
 char	*ft_strappend(char **tmp_map, char *tmp_line);
 void	check_map(t_game *game);
 void	init_vars(t_game *game);
+void	ft_init_sprites(t_game *game);
+void	ft_init_mlx(t_game *game);
+void	ft_free_all_allocated_memory(t_game *game);
+void	ft_render_map(t_game *game);
+int		ft_handle_input(int keysym, t_game *game);
+void	ft_close_game(t_game *game);
+void	ft_victory(t_game *game);
 
 #endif

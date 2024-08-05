@@ -20,7 +20,15 @@ int	main(int ac, char **av)
 	check_cmdline_argument(ac, av, game);
 	init_map(game, av[1]);
 	init_vars(game);
-	// ft_printf("%d\n", game->map.columns);
 	check_map(game);
+	ft_init_mlx(game);
+	ft_init_sprites(game);
+	ft_render_map(game);
+	mlx_hook(game->win_ptr, KeyPress, KeyPressMask, ft_handle_input, game);
+	mlx_hook(game->win_ptr, DestroyNotify, \
+	ButtonPressMask, ft_close_game, game);
+	mlx_hook(game->win_ptr, Expose, ExposureMask, ft_render_map, game);
+	mlx_loop(game->mlx_ptr);
+	ft_free_all_allocated_memory(game);
 	return (0);
 }

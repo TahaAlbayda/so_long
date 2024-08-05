@@ -22,7 +22,7 @@ void	init_map(t_game *game, char *argv)
 
 	map_fd = open(argv, O_RDONLY);
 	if (map_fd == -1)
-		ft_error("The Map couldn't be opened. Does the Map exist?");
+		ft_error("The Map couldn't be opened. Does the Map exist?", game);
 	tmp_map = ft_strdup("");
 	game->map.rows = 0;
 	while (true)
@@ -49,12 +49,12 @@ void	ft_check_for_empty_line(char *map, t_game *game)
 	if (map[0] == '\n')
 	{
 		free(map);
-		ft_error("invalid map the map have an empty line at the beginning");
+		ft_error("invalid map the map have an empty line at the beginning", game);
 	}
 	else if (map[ft_strlen(map) - 1] == '\n')
 	{
 		free(map);
-		ft_error("invalid map the map have a empty line at the end");
+		ft_error("invalid map the map have a empty line at the end", game);
 	}
 	while (map[i + 1])
 	{
@@ -62,7 +62,7 @@ void	ft_check_for_empty_line(char *map, t_game *game)
 		{
 			free(map);
 			ft_error("invalid map the map have a empty\
-						line at the middle of line");
+						line at the middle of line", game);
 		}
 		i++;
 	}
