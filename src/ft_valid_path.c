@@ -39,25 +39,28 @@ void	ft_valid_path(t_game *game)
 t_bool	isvalid(int x, int y, t_game *game, t_bool **visited)
 {
 	return (x >= 0 && x < game->map.rows && y >= 0 && y < game->map.columns
-		&& game->map.full_map[x][y] != '1' && !visited[x][y]);
+		&& game->map.full_map[y][x] != '1' && !visited[y][x]);
 }
 
 t_bool	dfs(int x, int y, t_game *game, t_bool **visited)
 {
+	static int	count;
+	static t_bool	exit;
+
+	count = 0;
+	exit = false;
 	if (!isvalid(x, y, game, visited))
 		return (false);
-	if (game->map.full_map[x][y] == 'E')
-		return (true);
-	visited[x][y] = true;
-	if (dfs(x - 1, y, game, visited))
-		return (true);
-	if (dfs(x + 1, y, game, visited))
-		return (true);
-	if (dfs(x, y - 1, game, visited))
-		return (true);
-	if (dfs(x, y + 1, game, visited))
-		return (true);
-	return (false);
+	if (game->map.full_map[y][x] == 'E')
+		exit = true;
+	if (game->map.full_map[y][x] == 'c')
+		count++;
+	visited[y][x] = true;
+	dfs(x - 1, y, game, visited);
+	dfs(x + 1, y, game, visited);
+	dfs(x, y - 1, game, visited);
+	dfs(x, y + 1, game, visited);
+	return (count == game->map.coins && exit);
 }
 
 void	freevisited(t_bool **visited, int rows)
